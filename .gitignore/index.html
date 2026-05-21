@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Status | Railway Deploy</title>
+    <style>
+        :root {
+            --bg-color: #0b0d17;
+            --card-bg: rgba(25, 28, 48, 0.4);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --railway-pink: #f92672;
+            --neon-green: #00f5a0;
+            --neon-blue: #00d9ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animação de fundo inovadora */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--railway-pink), var(--neon-blue));
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            top: 20%;
+            left: 25%;
+            animation: float 8s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            bottom: 20%;
+            right: 25%;
+            animation: float 12s ease-in-out infinite alternate-reverse;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-40px) scale(1.1); }
+        }
+
+        /* Container Principal (Glassmorphism) */
+        .container {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Badge de Status */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 245, 160, 0.1);
+            border: 1px solid rgba(0, 245, 160, 0.2);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 14px var(--neon-green); }
+            100% { transform: scale(0.9); opacity: 0.6; }
+        }
+
+        /* Tipografia */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(120deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Grid de Informações Técnicas */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 12px;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Botão Interativo */
+        .btn-action {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #1e1b4b, #311042);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(90deg, #2e1065, #4c1d95);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Status Indicator -->
+        <div class="status-badge">
+            <span class="pulse-dot"></span>
+            Application Live
+        </div>
+
+        <!-- Main Info -->
+        <h1>Tudo Pronto!</h1>
+        <p>A nova aplicação foi implantada com sucesso no ambiente do Railway e está pronta para receber tráfego.</p>
+
+        <!-- Tech Metadata Grid -->
+        <div class="meta-grid">
+            <div class="meta-item">
+                <div class="meta-label">Provider</div>
+                <div class="meta-value" style="color: var(--railway-pink);">Railway</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Environment</div>
+                <div class="meta-value">Production</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">HTTP Status</div>
+                <div class="meta-value" style="color: var(--neon-green);">200 OK</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">SSL</div>
+                <div class="meta-value" style="color: var(--neon-blue);">Active (TLS)</div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <button class="btn-action" onclick="refreshStatus()">Checar Conexão</button>
+    </div>
+
+    <script>
+        function refreshStatus() {
+            const btn = document.querySelector('.btn-action');
+            btn.textContent = 'Verificando...';
+            btn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                btn.textContent = 'Conexão Estável ✓';
+                btn.style.opacity = '1';
+                btn.style.background = 'linear-gradient(90deg, #064e3b, #022c22)';
+                
+                setTimeout(() => {
+                    btn.textContent = 'Checar Conexão';
+                    btn.style.background = 'linear-gradient(90deg, #1e1b4b, #311042)';
+                }, 2000);
+            }, 800);
+        }
+    </script>
+</body>
+</html>
