@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "nginx"
+    "startCommand": "nginx -g 'daemon off; listen ${PORT};'"
   }
 }
